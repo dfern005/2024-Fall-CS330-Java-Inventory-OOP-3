@@ -1,5 +1,7 @@
 package edu.odu.cs.cs330.items;
 
+import java.util.Objects;
+
 /**
  * This class represents one Consumable Item--as found in most video games.
  * This includes food.
@@ -46,6 +48,9 @@ public class Consumable extends Item {
         super("[Placeholder]");
 
         // Complete the remainder of this method
+
+        this.effect = "[None]";
+        this.uses = 0;
     }
 
     /**
@@ -98,13 +103,15 @@ public class Consumable extends Item {
     public int requiredNumberOfValues()
     {
         // Replace this with the correct value
-        return -1;
+        return 3;
     }
 
     @Override
     public void fromTokens(String[] tokens)
     {
-
+        this.setName(tokens[0]);
+        this.setEffect(tokens[1]);
+        this.setNumberOfUses(Integer.parseInt(tokens[2]));
     }
 
     /**
@@ -114,7 +121,11 @@ public class Consumable extends Item {
     public Item clone()
     {
         // Replace the next line
-        return null;
+        Consumable cpy = new Consumable();
+        cpy.setName(this.getName());
+        cpy.setEffect(this.effect);
+        cpy.setNumberOfUses(this.uses);
+        return cpy;
     }
 
     /**
@@ -130,7 +141,9 @@ public class Consumable extends Item {
         }
 
         // Replace the "return false" with your logic
-        return false;
+        Consumable rhsItem = (Consumable) rhs;
+        return this.getName().equals(rhsItem.getName()) &&
+               this.effect.equals(rhsItem.getEffect());
     }
 
     /**
@@ -142,7 +155,7 @@ public class Consumable extends Item {
     @Override
     public int hashCode()
     {
-        return -1;
+        return Objects.hash(this.getName(), this.effect);
     }
 
     /**
@@ -151,6 +164,11 @@ public class Consumable extends Item {
     @Override
     public String toString()
     {
-        return "Make sure to check Armour.toString for hints.";
+        return String.format(
+            FMT_STR,
+            this.getName(),
+            this.getEffect(),
+            this.getNumberOfUses()
+        );
     }
 }
